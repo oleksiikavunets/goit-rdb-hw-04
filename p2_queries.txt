@@ -1,0 +1,35 @@
+2. Заповніть таблиці простими видуманими тестовими даними.
+Достатньо одного-двох рядків у кожну таблицю.
+
+
+use LibraryManagement;
+
+INSERT INTO authors
+(author_name)
+VALUES
+('Jane Blanc'),
+('Fooris Baris');
+
+INSERT INTO genres
+(genre_name)
+VALUES
+('Romance'),
+('Fiction');
+
+INSERT INTO books
+(title, publication_year, author_id, genre_id)
+VALUES
+('Lost in the bar', 1971, 1, 2),
+('Free Foo', 1970, 2, 1);
+
+INSERT INTO users
+(username, email)
+VALUES
+('Bruce Lee', 'u1@gmail.com'),
+('Chuck Norris', 'u2@gmail.com');
+
+INSERT INTO borrowed_books
+(book_id, user_id, borrow_date, return_date)
+VALUES
+(1, 2, '2024-01-02', '2024-03-04'),
+(2, 1, '2023-02-03', '2023-04-05');

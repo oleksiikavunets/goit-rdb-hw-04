@@ -1,0 +1,88 @@
+4. Виконайте запити, перелічені нижче.
+
+    - Визначте, скільки рядків ви отримали (за допомогою оператора COUNT).
+
+SELECT COUNT(*) FROM orders o
+JOIN order_details od ON o.id = od.order_id
+JOIN customers c ON o.customer_id = c.id
+JOIN employees e ON o.employee_id = e.employee_id
+JOIN products p ON od.product_id = p.id
+JOIN shippers sh ON o.shipper_id = sh.id
+JOIN suppliers s ON p.supplier_id = s.id
+
+
+    - Змініть декілька операторів INNER на LEFT чи RIGHT. Визначте, що відбувається з кількістю рядків.
+
+SELECT count(*) FROM orders o
+LEFT JOIN order_details od ON o.id = od.order_id
+JOIN customers c ON o.customer_id = c.id
+JOIN employees e ON o.employee_id = e.employee_id
+JOIN products p ON od.product_id = p.id
+RIGHT JOIN suppliers s ON p.supplier_id = s.id
+JOIN categories ct ON p.category_id = ct.id
+LEFT JOIN shippers sh ON o.shipper_id = sh.id
+
+# Отже, спробував різні варіанти комбінацій - результат не змінюється - 518.
+# Так відбувається тому що навіть з іннер джойном задіяні всі рядки всіх таблиць
+
+
+    - Оберіть тільки ті рядки, де employee_id > 3 та ≤ 10
+
+SELECT * FROM orders o
+JOIN order_details od ON o.id = od.order_id
+JOIN customers c ON o.customer_id = c.id
+JOIN employees e ON o.employee_id = e.employee_id
+JOIN products p ON od.product_id = p.id
+JOIN suppliers s ON p.supplier_id = s.id
+JOIN categories ct ON p.category_id = ct.id
+JOIN shippers sh ON o.shipper_id = sh.id
+
+WHERE 3 < o.employee_id AND o.employee_id <= 10
+
+
+    - Згрупуйте за іменем категорії, порахуйте кількість рядків у групі,
+    середню кількість товару (кількість товару знаходиться в order_details.quantity)
+
+SELECT ct.name, count(*) cnt, AVG(od.quantity) avg_qty FROM orders o
+JOIN order_details od ON o.id = od.order_id
+JOIN customers c ON o.customer_id = c.id
+JOIN employees e ON o.employee_id = e.employee_id
+JOIN products p ON od.product_id = p.id
+JOIN suppliers s ON p.supplier_id = s.id
+JOIN categories ct ON p.category_id = ct.id
+JOIN shippers sh ON o.shipper_id = sh.id
+
+GROUP BY ct.name
+
+
+    - Відфільтруйте рядки, де середня кількість товару більша за 21.
+
+SELECT ct.name, count(*) cnt, AVG(od.quantity) avg_qty FROM orders o
+JOIN order_details od ON o.id = od.order_id
+JOIN customers c ON o.customer_id = c.id
+JOIN employees e ON o.employee_id = e.employee_id
+JOIN products p ON od.product_id = p.id
+JOIN suppliers s ON p.supplier_id = s.id
+JOIN categories ct ON p.category_id = ct.id
+JOIN shippers sh ON o.shipper_id = sh.id
+
+GROUP BY ct.name
+HAVING avg_qty > 21
+
+
+     - Відсортуйте рядки за спаданням кількості рядків
+
+SELECT ct.name, count(*) cnt, AVG(od.quantity) avg_qty FROM orders o
+JOIN order_details od ON o.id = od.order_id
+JOIN customers c ON o.customer_id = c.id
+JOIN employees e ON o.employee_id = e.employee_id
+JOIN products p ON od.product_id = p.id
+JOIN suppliers s ON p.supplier_id = s.id
+JOIN categories ct ON p.category_id = ct.id
+JOIN shippers sh ON o.shipper_id = sh.id
+
+GROUP BY ct.name
+HAVING avg_qty > 21
+ORDER BY cnt DESC
+
+

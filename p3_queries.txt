@@ -1,0 +1,15 @@
+3. Перейдіть до бази даних, з якою працювали у темі 3. Напишіть запит за допомогою операторів FROM та INNER JOIN,
+що об’єднує всі таблиці даних, які ми завантажили з файлів: order_details, orders, customers, products, categories,
+employees, shippers, suppliers.
+
+
+use dz_t3;
+
+SELECT * FROM orders o
+JOIN order_details od ON o.id = od.order_id
+JOIN customers c ON o.customer_id = c.id
+JOIN employees e ON o.employee_id = e.employee_id
+JOIN products p ON od.product_id = p.id
+JOIN categories ct ON p.category_id = ct.id
+JOIN shippers sh ON o.shipper_id = sh.id
+JOIN suppliers s ON p.supplier_id = s.id
